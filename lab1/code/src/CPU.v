@@ -4,18 +4,23 @@ module CPU
     rst_i,
 );
 
-// Ports
 input               clk_i;
 input               rst_i;
 
-wire [31:0] instr, pc, pc_next;
-wire zero;
+// pc & instruction
+wire [31:0] instr, immed;
+wire [31:0] pc, pc_next;
+
+// register
+wire [31:0] RS1data, RS2data;
+
+// control
+wire zero, ALUSrc, RegWrite;
 wire [1:0] ALUOp;
 wire [2:0] ALUCtr;
-wire ALUSrc, RegWrite;
-wire [31:0] RS1data, RS2data;
-wire [31:0] IMMdata;
-wire [31:0] ALUrst;
+
+// ALU
+wire [31:0] ALUres;
 wire [31:0] ALUdata2_i;
 
 Control Control(
@@ -49,7 +54,7 @@ Registers Registers(
     .RS1addr_i(instr[19:15]),
     .RS2addr_i(instr[24:20]),
     .RDaddr_i(instr[11:7]),
-    .RDdata_i(ALUrst),
+    .RDdata_i(ALUres),
     .RegWrite_i(RegWrite), 
     .RS1data_o(RS1data), 
     .RS2data_o(RS2data)
@@ -57,21 +62,21 @@ Registers Registers(
 
 MUX32 MUX_ALUSrc(
     .src0_i(RS2data),
-    .src1_i(IMMdata),
+    .src1_i(immed),
     .select_i(ALUSrc),
     .res_o(ALUdata2_i)
 );
 
 Sign_Extend Sign_Extend(
     .data_i(instr[31:20]),
-    .data_o(IMMdata)
+    .data_o(immed)
 );
   
 ALU ALU(
     .src1_i(RS1data),
     .src2_i(ALUdata2_i),
     .ALUCtr_i(ALUCtr),
-    .res_o(ALUrst),
+    .res_o(ALUres),
     .zero_o(zero)
 );
 
@@ -80,12 +85,5 @@ ALU_Control ALU_Control(
     .func_i({instr[31:25], instr[14:12]}),
     .ALUCtr_o(ALUCtr)
 );
-// ALU_Control ALU_Control(
-//     .ALUOp_i(ALUOp),
-//     .func_i({instr[31:25], instr[14:12]}),
-//     .ALUCtr_o(ALUCtr)
-// );
-
 
 endmodule
-
