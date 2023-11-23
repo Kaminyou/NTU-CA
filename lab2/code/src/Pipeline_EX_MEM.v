@@ -1,4 +1,4 @@
-module Pipeline_EX_MEM (
+module Pipeline_EX_MEM(
     clk_i,
     rst_i,
     ALUout_i,

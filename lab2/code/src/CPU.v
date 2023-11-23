@@ -63,14 +63,37 @@ wire [31:0] WB_RDdata;
 wire [1:0] Forward_A, Forward_B;
 
 
-MUX32 MUX_PC (
+Forwarder Forwarder(
+	.EX_Rs1(EX_Rs1),
+	.EX_Rs2(EX_Rs2),
+	.MEM_RegWrite(MEM_RegWrite),
+	.MEM_Rd(MEM_RD),
+	.WB_RegWrite(WB_RegWrite),
+	.WB_Rd(WB_Rd),
+	.Forward_A(Forward_A),
+	.Forward_B(Forward_B)
+);
+
+Hazard_Detection Hazard_Detection(
+	.clk_i(clk_i),
+	.rst_i(rst_i),
+	.ID_Rs1(ID_Rs1),
+	.ID_Rs2(ID_Rs2),
+	.EX_MemRead(EX_MemRead),
+	.EX_Rd(EX_RD),
+	.NoOp(NoOp),
+	.PCWrite(PCWrite),
+	.Stall_o(Stall)
+);
+
+MUX32 MUX_PC(
 	.src0_i(pc_next),
 	.src1_i(ID_branch_PC),
 	.select_i(ID_to_branch),
 	.res_o(IF_PC_i)
 );
 
-PC PC (
+PC PC(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 	.PCWrite_i(PCWrite),
@@ -89,7 +112,7 @@ Instruction_Memory Instruction_Memory(
 	.instr_o(IF_IR)
 );
 
-Pipeline_IF_ID IF_ID(
+Pipeline_IF_ID Pipeline_IF_ID(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 	.instr_i(IF_IR),
@@ -115,7 +138,7 @@ Registers Registers(
 	.RS2data_o(ID_data2)
 );
 
-Imm_Gen Imm_Gen (
+Imm_Gen Imm_Gen(
 	.instr(ID_IR),
 	.immed(imme_o)
 );
@@ -137,7 +160,7 @@ Control Control(
 	.Branch_o(ID_Branch)
 );
 
-Pipeline_ID_EX ID_EX(
+Pipeline_ID_EX Pipeline_ID_EX(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 	.RS1data_i(ID_data1),
@@ -170,7 +193,7 @@ Pipeline_ID_EX ID_EX(
 	.RS2addr_o(EX_Rs2)
 );
 
-MUX32_Double MUX_A(
+MUX32_Double MUX_First(
 	.src00_i(EX_A),
 	.src01_i(WB_RDdata),
 	.src10_i(MEM_ALUout),
@@ -179,7 +202,7 @@ MUX32_Double MUX_A(
 	.res_o(MUX_A_o)
 );
 
-MUX32_Double MUX_B(
+MUX32_Double MUX_Second(
 	.src00_i(EX_B),
 	.src01_i(WB_RDdata),
 	.src10_i(MEM_ALUout),
@@ -210,7 +233,7 @@ ALU_Control ALU_Control(
 	.ALUCtr_o(ALUctl)
 );
 
-Pipeline_EX_MEM EX_MEM (
+Pipeline_EX_MEM Pipeline_EX_MEM(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 	.ALUout_i(EX_ALUout),
@@ -241,7 +264,7 @@ Data_Memory Data_Memory(
 	.data_o(MEM_MD)
 );
 
-Pipeline_MEM_WB MEM_WB(
+Pipeline_MEM_WB Pipeline_MEM_WB(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 	.MemoryData_i(MEM_MD),
@@ -261,30 +284,6 @@ MUX32 MUX_WB(
 	.src1_i(WB_MD),
 	.select_i(WB_MemtoReg),
 	.res_o(WB_RDdata)
-);
-
-Forwarder Forwarder (
-	.EX_Rs1(EX_Rs1),
-	.EX_Rs2(EX_Rs2),
-	.MEM_RegWrite(MEM_RegWrite),
-	.MEM_Rd(MEM_RD),
-	.WB_RegWrite(WB_RegWrite),
-	.WB_Rd(WB_Rd),
-
-	.Forward_A(Forward_A),
-	.Forward_B(Forward_B)
-);
-
-Hazard_Detection Hazard_Detection(
-	.clk_i(clk_i),
-	.rst_i(rst_i),
-	.ID_Rs1(ID_Rs1),
-	.ID_Rs2(ID_Rs2),
-	.EX_MemRead(EX_MemRead),
-	.EX_Rd(EX_RD),
-	.NoOp(NoOp),
-	.PCWrite(PCWrite),
-	.Stall_o(Stall)
 );
 
 endmodule
