@@ -295,12 +295,10 @@ Forwarder Forwarder (
 Hazard_Detection Hazard_Detection(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
-
 	.ID_Rs1(ID_Rs1),
 	.ID_Rs2(ID_Rs2),
-	.EX_Rd(EX_RD),
 	.EX_MemRead(EX_MemRead),
-
+	.EX_Rd(EX_RD),
 	.NoOp(NoOp),
 	.PCWrite(PCWrite),
 	.Stall_o(Stall)
