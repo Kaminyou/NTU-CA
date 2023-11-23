@@ -1,113 +1,97 @@
-module Pipeline_ID_EX (
-         clk_i,
-         rst_i,
+module Pipeline_ID_EX(
+    clk_i,
+    rst_i,
+    RS1data_i,
+    RS2data_i,
+    immed_i,
+    pc_i,
+    Rd_i,
+    RegWrite_i,
+    MemtoReg_i,
+    MemRead_i,
+    MemWrite_i,
+    ALUOp_i,
+    ALUSrc_i,
+    instr_i,
+    RS1addr_i,
+    RS2addr_i,
 
-         A_i,
-         B_i,
-         imme_i,
-         PC_i,
-         RD_i,
+    RS1data_o,
+    RS2data_o,
+    immed_o,
+    pc_o,
+    Rd_o,
+    RegWrite_o,
+    MemtoReg_o,
+    MemRead_o,
+    MemWrite_o,
+    ALUOp_o,
+    ALUSrc_o,
+    instr_o,
+    RS1addr_o,
+    RS2addr_o,
+);
 
-         A_o,
-         B_o,
-         imme_o,
-         PC_o,
-         RD_o,
+    input clk_i;
+    input rst_i;
 
-         RegWrite_i,
-         MemtoReg_i,
-         MemRead_i,
-         MemWrite_i,
-         ALUOp_i,
-         ALUSrc_i,
+    input [31:0] RS1data_i, RS2data_i;
+    output reg [31:0] RS1data_o, RS2data_o;
 
-         RegWrite_o,
-         MemtoReg_o,
-         MemRead_o,
-         MemWrite_o,
-         ALUOp_o,
-         ALUSrc_o,
+    input [31:0] immed_i, pc_i;
+    output reg [31:0] immed_o, pc_o;
 
-         IR_i,
-         IR_o,
+    input [4:0] Rd_i;
+    output reg [4:0] Rd_o;
 
-         Rs1_i,
-         Rs2_i,
-         Rs1_o,
-         Rs2_o,
-       );
+    input [31:0] instr_i;
+    output reg [31:0] instr_o;
 
-input clk_i;
-input rst_i;
-input [31:0] A_i;
-input [31:0] B_i;
-input [31:0] imme_i;
-input [31:0] PC_i;
-input [4:0] RD_i;
+    input RegWrite_i, MemtoReg_i, MemRead_i, MemWrite_i, ALUSrc_i;
+    output reg RegWrite_o, MemtoReg_o, MemRead_o, MemWrite_o, ALUSrc_o;
 
-output reg [31:0] A_o;
-output reg [31:0] B_o;
-output reg [31:0] imme_o;
-output reg [31:0] PC_o;
-output reg [4:0] RD_o;
+    input [1:0] ALUOp_i;
+    output reg [1:0] ALUOp_o;
 
-input [31:0] IR_i;
-output reg [31:0] IR_o;
+    input [4:0] RS1addr_i, RS2addr_i;
+    output reg [4:0] RS1addr_o, RS2addr_o;
 
-// ! Signals
-input RegWrite_i, MemtoReg_i, MemRead_i, MemWrite_i, ALUSrc_i;
-input [1:0] ALUOp_i;
-output reg RegWrite_o, MemtoReg_o, MemRead_o, MemWrite_o, ALUSrc_o;
-output reg [1:0] ALUOp_o;
-
-// ! Forwarding
-input [4:0] Rs1_i, Rs2_i;
-output reg [4:0] Rs1_o, Rs2_o;
-
-always@(posedge clk_i or negedge rst_i)
-  begin
-    if(~rst_i)
-      begin
-        A_o <= 32'b0;
-        B_o <= 32'b0;
-        imme_o <= 32'b0;
-        PC_o <= 32'b0;
-        RD_o <= 32'b0;
-
-        RegWrite_o <= 0;
-        MemtoReg_o <= 0;
-        MemRead_o <= 0;
-        MemWrite_o <= 0;
-        ALUOp_o <= 0;
-        ALUSrc_o <= 0;
-
-        Rs1_o <= 0;
-        Rs2_o <= 0;
-
-        IR_o <= 0;
-      end
-    else
-      begin
-        A_o <= A_i;
-        B_o <= B_i;
-        imme_o <= imme_i;
-        PC_o <= PC_i;
-        RD_o <= RD_i;
-
-        RegWrite_o <= RegWrite_i;
-        MemtoReg_o <= MemtoReg_i;
-        MemRead_o <= MemRead_i;
-        MemWrite_o <= MemWrite_i;
-        ALUOp_o <= ALUOp_i;
-        ALUSrc_o <= ALUSrc_i;
-
-        Rs1_o <= Rs1_i;
-        Rs2_o <= Rs2_i;
-
-        IR_o <= IR_i;
-      end
-  end
-
-
+    always@(posedge clk_i or negedge rst_i)
+    begin
+        if (~rst_i) // init
+        begin
+            RS1data_o <= 32'b0;
+            RS2data_o <= 32'b0;
+            immed_o <= 32'b0;
+            pc_o <= 32'b0;
+            Rd_o <= 32'b0;
+            RegWrite_o <= 0;
+            MemtoReg_o <= 0;
+            MemRead_o <= 0;
+            MemWrite_o <= 0;
+            ALUOp_o <= 0;
+            ALUSrc_o <= 0;
+            instr_o <= 0;
+            RS1addr_o <= 0;
+            RS2addr_o <= 0;
+        end
+        else
+        begin
+            RS1data_o <= RS1data_i;
+            RS2data_o <= RS2data_i;
+            immed_o <= immed_i;
+            pc_o <= pc_i;
+            Rd_o <= Rd_i;
+            RegWrite_o <= RegWrite_i;
+            MemtoReg_o <= MemtoReg_i;
+            MemRead_o <= MemRead_i;
+            MemWrite_o <= MemWrite_i;
+            ALUOp_o <= ALUOp_i;
+            ALUSrc_o <= ALUSrc_i;
+            instr_o <= instr_i;
+            RS1addr_o <= RS1addr_i;
+            RS2addr_o <= RS2addr_i;
+        end
+    end
 
 endmodule
