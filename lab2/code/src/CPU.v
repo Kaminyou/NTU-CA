@@ -244,17 +244,14 @@ Data_Memory Data_Memory(
 Pipeline_MEM_WB MEM_WB(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
-
-	.MD_i(MEM_MD),
+	.MemoryData_i(MEM_MD),
 	.ALUout_i(MEM_ALUout),
-	.RD_i(MEM_RD),
-
-	.MD_o(WB_MD),
-	.ALUout_o(WB_ALUout),
-	.RD_o(WB_Rd),
-
+	.Rd_i(MEM_RD),
 	.RegWrite_i(MEM_RegWrite),
 	.MemtoReg_i(MEM_MemtoReg),
+	.MemoryData_o(WB_MD),
+	.ALUout_o(WB_ALUout),
+	.Rd_o(WB_Rd),
 	.RegWrite_o(WB_RegWrite),
 	.MemtoReg_o(WB_MemtoReg)
 );
