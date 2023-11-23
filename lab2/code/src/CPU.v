@@ -1,23 +1,3 @@
-
-// `include "./PC.v"
-// `include "./Instruction_Memory.v"
-// `include "./Registers.v"
-// `include "./Control.v"
-// `include "./Adder.v"
-// `include "./Sign_Extend.v"
-// `include "./ALU.v"
-// `include "./ALU_Control.v"
-// `include "./MUX32.v"
-// `include "./MUX32_2.v"
-
-// `include "./Imme_Gen.v"
-
-// `include "./Pipe_IF_ID.v"
-// `include "./Pipe_ID_EX.v"
-// `include "./Pipe_EX_MEM.v"
-// `include "./Pipe_MEM_WB.v"
-// `include "./Forwarding_Unit.v"
-
 module CPU
        (
          clk_i,
@@ -67,11 +47,11 @@ PC PC (
      .pc_o(IF_PC_o)
    );
 
-Adder_32 Add_PC(
-           .a(IF_PC_o),
-           .b(32'd4),
-           .c(IF_Adder_o)
-         );
+Adder Add_PC(
+	.src1_i(IF_PC_o),
+	.src2_i(32'd4),
+	.res_o(IF_Adder_o)
+);
 
 Instruction_Memory Instruction_Memory(
                      .addr_i(IF_PC_o),

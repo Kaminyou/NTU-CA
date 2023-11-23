@@ -1,13 +1,6 @@
-module Adder_32 (
-         a,
-         b,
-         c
-       );
+module Adder(src1_i, src2_i, res_o);
+    input [31:0] src1_i, src2_i;
+    output [31:0] res_o;
 
-input [31:0] a;
-input [31:0] b;
-output [31:0] c;
-
-assign c = a + b;
-
+    assign res_o = src1_i + src2_i;
 endmodule
