@@ -21,7 +21,7 @@ module Control(Op_i, NoOp_i, ALUOp_o, ALUSrc_o, RegWrite_o, MemtoReg_o, MemRead_
             MemtoReg_o <= 0;
             MemRead_o <= 0;
             MemWrite_o <= 0;
-            ALUOp_o  <= 2'b0;
+            ALUOp_o  <= 2'b00;
             ALUSrc_o <= 0;
             Branch_o <= 0;
         end
@@ -29,8 +29,8 @@ module Control(Op_i, NoOp_i, ALUOp_o, ALUSrc_o, RegWrite_o, MemtoReg_o, MemRead_
         case (Op_i)
             `RTYPE:
             begin
-                ALUOp_o  <= 2'b11;  // decided by funct code
-                ALUSrc_o <= 0;  // from data2
+                ALUOp_o  <= 2'b10;
+                ALUSrc_o <= 0;
                 RegWrite_o <= 1;
                 MemtoReg_o <= 0;
                 MemRead_o <= 0;
@@ -39,8 +39,8 @@ module Control(Op_i, NoOp_i, ALUOp_o, ALUSrc_o, RegWrite_o, MemtoReg_o, MemRead_
             end
             `I_TYPE_ALU:
             begin
-                ALUOp_o <= 2'b10;  // decided by funct code, imme
-                ALUSrc_o <= 1;  // from imme
+                ALUOp_o <= 2'b11;
+                ALUSrc_o <= 1;
                 RegWrite_o <= 1;
                 MemtoReg_o <= 0;
                 MemRead_o <= 0;
@@ -49,8 +49,8 @@ module Control(Op_i, NoOp_i, ALUOp_o, ALUSrc_o, RegWrite_o, MemtoReg_o, MemRead_
             end
             `I_TYPE_LW:
             begin
-                ALUOp_o <= 2'b01;  // always addition
-                ALUSrc_o <= 1;  // imme
+                ALUOp_o <= 2'b01; // add
+                ALUSrc_o <= 1;
                 RegWrite_o <= 1;
                 MemtoReg_o <= 1;
                 MemRead_o <= 1;
@@ -59,8 +59,8 @@ module Control(Op_i, NoOp_i, ALUOp_o, ALUSrc_o, RegWrite_o, MemtoReg_o, MemRead_
             end
             `S_TYPE:
             begin
-                ALUOp_o <= 2'b01;  // always addition
-                ALUSrc_o <= 1;  // imme
+                ALUOp_o <= 2'b01; // add
+                ALUSrc_o <= 1;
                 RegWrite_o <= 0;
                 MemtoReg_o <= 0;
                 MemRead_o <= 0;
@@ -69,8 +69,8 @@ module Control(Op_i, NoOp_i, ALUOp_o, ALUSrc_o, RegWrite_o, MemtoReg_o, MemRead_
             end
             `SB_TYPE:
             begin
-                ALUOp_o <= 2'b00;  // always addition
-                ALUSrc_o <= 0;  // imme
+                ALUOp_o <= 2'b00; //sub
+                ALUSrc_o <= 0;
                 RegWrite_o <= 0;
                 MemtoReg_o <= 0;
                 MemRead_o <= 0;

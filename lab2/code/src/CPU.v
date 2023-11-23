@@ -206,17 +206,17 @@ MUX32 MUX_ALUSrc(
 
 
 ALU ALU(
-	.op1(ALU_A_i),
-	.op2(ALU_B_i),
-	.res(EX_ALUout),
-	.ctl(ALUctl)
+	.src1_i(ALU_A_i),
+	.src2_i(ALU_B_i),
+	.ALUCtr_i(ALUctl),
+	.res_o(EX_ALUout)
 );
 
 ALU_Control ALU_Control(
-	.ALUOp(EX_ALUOp),
-	.funct7(EX_IR[31:25]),
-	.funct3(EX_IR[14:12]),
-	.ALUctl(ALUctl)
+	.ALUOp_i(EX_ALUOp),
+	.funct7_i(EX_IR[31:25]),
+	.funct3_i(EX_IR[14:12]),
+	.ALUCtr_o(ALUctl)
 );
 
 Pipe_EX_MEM EX_MEM (

@@ -1,37 +1,42 @@
-module ALU(
-         op1,
-         op2,
-         res,
-         ctl,
-       );
+`define AND  3'b000
+`define XOR  3'b001
+`define SLL  3'b010
+`define ADD  3'b011
+`define SUB  3'b100
+`define MUL  3'b101
+`define ADDI 3'b110
+`define SRAI 3'b111
 
-input [2:0] ctl;
-input signed [31:0]op1, op2;
-output reg [31:0] res;
+module ALU(src1_i, src2_i, res_o, ALUCtr_i);
 
-reg [31:0] tmp;
-always @(ctl or op1 or op2)
-  begin
-    case (ctl)
-      0:  // and
-        res <= op1 & op2;
-      1:  // xor
-        res <= op1 ^ op2;
-      2:  // sll
-        res <= op1 << op2;
-      3:  // add
-        res <= op1+op2;
-      4:  // sub
-        res <= op1-op2;
-      5:  // mul
-        res <= op1*op2;
-      6:  // sra
-        begin
-          tmp = op2[4:0];
-          res = op1 >>> tmp;
-        end
-    endcase
+    input [31:0] src1_i, src2_i;
+    input [2:0] ALUCtr_i;
+    output reg [31:0] res_o;
+    reg [31:0] tmp;
 
-  end
+    always @(ALUCtr_i or src1_i or src2_i)
+    begin
+        case (ALUCtr_i)
+        `AND:
+            res_o <= src1_i & src2_i;
+        `XOR:
+            res_o <= src1_i ^ src2_i;
+        `SLL:
+            res_o <= src1_i << src2_i;
+        `ADD:
+            res_o <= src1_i + src2_i;
+        `SUB:
+            res_o <= src1_i - src2_i;
+        `MUL:
+            res_o <= src1_i * src2_i;
+        `ADDI:
+            res_o <= src1_i + src2_i;
+        `SRAI:
+            res_o <= src1_i >>> src2_i[4:0];
+        default:
+            res_o <= 32'b0; // Default case to handle undefined ALUCtr_i values
+        endcase
+
+    end
 
 endmodule
