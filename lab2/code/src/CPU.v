@@ -280,7 +280,7 @@ MUX32 MUX_WB(
 	.res_o(WB_RDdata)
 );
 
-Forwarding_Unit Forwarding_Unit (
+Forwarder Forwarder (
 	.EX_Rs1(EX_Rs1),
 	.EX_Rs2(EX_Rs2),
 	.MEM_RegWrite(MEM_RegWrite),
