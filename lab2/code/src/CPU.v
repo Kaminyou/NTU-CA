@@ -56,11 +56,11 @@ wire MEM_RegWrite, MEM_MemtoReg, MEM_MemRead,MEM_MemWrite;
 wire [31:0] MEM_MD;
 
 wire [31:0] WB_ALUout, WB_MD;
-wire [4:0] WB_RD;
+wire [4:0] WB_Rd;
 wire WB_MemtoReg, WB_RegWrite;
 
 wire [31:0] WB_RDdata;
-wire [1:0] ForwardA, ForwardB;
+wire [1:0] Forward_A, Forward_B;
 
 
 MUX32 MUX_PC (
@@ -110,7 +110,7 @@ Registers Registers(
 	.RS1addr_i(ID_Rs1),
 	.RS2addr_i(ID_Rs2),
 
-	.RDaddr_i(WB_RD),
+	.RDaddr_i(WB_Rd),
 	.RDdata_i(WB_RDdata),
 	.RegWrite_i(WB_RegWrite),
 
@@ -185,7 +185,7 @@ MUX32_2 MUX_A(
 	.in01(WB_RDdata),
 	.in10(MEM_ALUout),
 	.in11(0),
-	.swt(ForwardA),
+	.swt(Forward_A),
 	.res(MUX_A_o)
 );
 
@@ -194,7 +194,7 @@ MUX32_2 MUX_B(
 	.in01(WB_RDdata),
 	.in10(MEM_ALUout),
 	.in11(0),
-	.swt(ForwardB),
+	.swt(Forward_B),
 	.res(MUX_B_o)
 );
 
@@ -265,7 +265,7 @@ Pipe_MEM_WB MEM_WB(
 
 	.MD_o(WB_MD),
 	.ALUout_o(WB_ALUout),
-	.RD_o(WB_RD),
+	.RD_o(WB_Rd),
 
 	.RegWrite_i(MEM_RegWrite),
 	.MemtoReg_i(MEM_MemtoReg),
@@ -286,10 +286,10 @@ Forwarder Forwarder (
 	.MEM_RegWrite(MEM_RegWrite),
 	.MEM_Rd(MEM_RD),
 	.WB_RegWrite(WB_RegWrite),
-	.WB_RD(WB_RD),
+	.WB_Rd(WB_Rd),
 
-	.ForwardA(ForwardA),
-	.ForwardB(ForwardB)
+	.Forward_A(Forward_A),
+	.Forward_B(Forward_B)
 );
 
 Hazard_Detection Hazard_Detection(
