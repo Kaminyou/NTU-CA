@@ -180,22 +180,22 @@ Pipe_ID_EX ID_EX(
 	.IR_o(EX_IR)
 );
 
-MUX32_2 MUX_A(
-	.in00(EX_A),
-	.in01(WB_RDdata),
-	.in10(MEM_ALUout),
-	.in11(0),
-	.swt(Forward_A),
-	.res(MUX_A_o)
+MUX32_Double MUX_A(
+	.src00_i(EX_A),
+	.src01_i(WB_RDdata),
+	.src10_i(MEM_ALUout),
+	.src11_i(0),
+	.select_i(Forward_A),
+	.res_o(MUX_A_o)
 );
 
-MUX32_2 MUX_B(
-	.in00(EX_B),
-	.in01(WB_RDdata),
-	.in10(MEM_ALUout),
-	.in11(0),
-	.swt(Forward_B),
-	.res(MUX_B_o)
+MUX32_Double MUX_B(
+	.src00_i(EX_B),
+	.src01_i(WB_RDdata),
+	.src10_i(MEM_ALUout),
+	.src11_i(0),
+	.select_i(Forward_B),
+	.res_o(MUX_B_o)
 );
 
 MUX32 MUX_ALUSrc(
