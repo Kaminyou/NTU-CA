@@ -92,13 +92,10 @@ Instruction_Memory Instruction_Memory(
 Pipeline_IF_ID IF_ID(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
-
-	.IR_i(IF_IR),
-	.PC_i(pc),
-
-	.IR_o(ID_IR),
-	.PC_o(ID_PC),
-
+	.instr_i(IF_IR),
+	.pc_i(pc),
+	.instr_o(ID_IR),
+	.pc_o(ID_PC),
 	.Flush_i(ID_FlushIF),
 	.Stall_i(Stall)
 );
