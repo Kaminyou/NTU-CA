@@ -64,10 +64,10 @@ wire [1:0] ForwardA, ForwardB;
 
 
 MUX32 MUX_PC (
-	.in0(IF_Adder_o),
-	.in1(ID_branch_PC),
-	.swt(ID_to_branch),
-	.res(IF_PC_i)
+	.src0_i(IF_Adder_o),
+	.src1_i(ID_branch_PC),
+	.select_i(ID_to_branch),
+	.res_o(IF_PC_i)
 );
 
 PC PC (
@@ -199,10 +199,10 @@ MUX32_2 MUX_B(
 );
 
 MUX32 MUX_ALUSrc(
-	.in0(MUX_B_o),
-	.in1(EX_imme),
-	.swt(EX_ALUSrc),
-	.res(ALU_B_i)
+	.src0_i(MUX_B_o),
+	.src1_i(EX_imme),
+	.select_i(EX_ALUSrc),
+	.res_o(ALU_B_i)
 );
 
 
@@ -273,11 +273,11 @@ Pipe_MEM_WB MEM_WB(
 	.MemtoReg_o(WB_MemtoReg)
 );
 
-MUX32 WB_MUX(
-	.in0(WB_ALUout),
-	.in1(WB_MD),
-	.swt(WB_MemtoReg),
-	.res(WB_RDdata)
+MUX32 MUX_WB(
+	.src0_i(WB_ALUout),
+	.src1_i(WB_MD),
+	.select_i(WB_MemtoReg),
+	.res_o(WB_RDdata)
 );
 
 Forwarding_Unit Forwarding_Unit (
