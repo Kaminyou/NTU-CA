@@ -1,13 +1,8 @@
-module Sign_Extend(
-         in,
-         out
-       );
+module Sign_Extend(data_i, data_o);
+    input [11:0] data_i;
+    output [31:0] data_o;
 
-input [11:0] in;
-output [31:0] out;
-
-wire [19:0] ext = {20{in[11]}};
-
-assign out = {ext, in} ;
+    assign data_o[31:12] = {20{data_i[11]}};
+    assign data_o[11:0] = data_i;
 
 endmodule
