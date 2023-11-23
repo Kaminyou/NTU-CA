@@ -286,4 +286,3 @@ MUX32 MUX_WB(
 );
 
 endmodule
-
