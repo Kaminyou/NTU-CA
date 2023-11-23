@@ -4,12 +4,11 @@ module CPU
     rst_i,
 );
 
-input               clk_i;
-input               rst_i;
+input clk_i;
+input rst_i;
 
 wire [31:0] IF_PC_o, IF_Adder_o, IF_PC_i, IF_IR;
 wire NoOp, PCWrite, Stall;
-
 
 wire [31:0] ID_IR;
 wire [31:0] ID_PC;
@@ -20,9 +19,9 @@ assign ID_RD = ID_IR[11:7];
 assign ID_Rs1 = ID_IR[19:15];
 assign ID_Rs2 = ID_IR[24:20];
 
-wire ID_RegWrite, ID_MemtoReg,
-     ID_MemRead, ID_MemWrite,
-     ID_ALUSrc, ID_Branch;
+wire ID_RegWrite, ID_MemtoReg;
+wire ID_MemRead, ID_MemWrite;
+wire ID_ALUSrc, ID_Branch;
 wire [1:0] ID_ALUOp;
 
 wire ID_to_branch, ID_FlushIF;
@@ -41,10 +40,8 @@ wire [31:0] EX_IR;
 wire EX_RegWrite, EX_MemtoReg, EX_MemRead, EX_MemWrite, EX_ALUSrc;
 wire [1:0] EX_ALUOp;
 
-// ? output
 wire signed [31:0] EX_ALUout;
 
-// ? internal
 wire [31:0] MUX_A_o, MUX_B_o;
 wire [31:0] ALU_A_i, ALU_B_i;
 wire [2:0] ALUctl;
@@ -56,21 +53,15 @@ wire [31:0] MEM_ALUout, MEM_WD;
 wire [4:0] MEM_RD;
 wire MEM_RegWrite, MEM_MemtoReg, MEM_MemRead,MEM_MemWrite;
 
-// ? output
-wire [31:0] MEM_MD;  // memory data
+wire [31:0] MEM_MD;
 
-
-// * WB
-
-// ? input
 wire [31:0] WB_ALUout, WB_MD;
 wire [4:0] WB_RD;
 wire WB_MemtoReg, WB_RegWrite;
 
-// ? output
 wire [31:0] WB_RDdata;
-
 wire [1:0] ForwardA, ForwardB;
+
 
 MUX32 MUX_PC (
 	.in0(IF_Adder_o),
