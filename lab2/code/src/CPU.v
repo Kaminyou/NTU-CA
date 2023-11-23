@@ -213,20 +213,16 @@ ALU_Control ALU_Control(
 Pipeline_EX_MEM EX_MEM (
 	.clk_i(clk_i),
 	.rst_i(rst_i),
-
 	.ALUout_i(EX_ALUout),
-	.WD_i(MUX_B_o),
-	.RD_i(EX_RD),
-
-	.ALUout_o(MEM_ALUout),
-	.WD_o(MEM_WD),
-	.RD_o(MEM_RD),
-
+	.WriteData_i(MUX_B_o),
+	.Rd_i(EX_RD),
 	.RegWrite_i(EX_RegWrite),
 	.MemtoReg_i(EX_MemtoReg),
 	.MemRead_i(EX_MemRead),
 	.MemWrite_i(EX_MemWrite),
-
+	.ALUout_o(MEM_ALUout),
+	.WriteData_o(MEM_WD),
+	.Rd_o(MEM_RD),
 	.RegWrite_o(MEM_RegWrite),
 	.MemtoReg_o(MEM_MemtoReg),
 	.MemRead_o(MEM_MemRead),
