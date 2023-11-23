@@ -27,13 +27,8 @@ always @(ctl or op1 or op2)
         res <= op1*op2;
       6:  // sra
         begin
-          // tmp <= {32{op1[31]}};
-          // tmp <= tmp << (32 - op2[4:0]);
           tmp = op2[4:0];
           res = op1 >>> tmp;
-          // res <= res | tmp;
-          // for(i=0;i<op2; i = i+1)
-          //   res[31-i +: 1] <= res[31-op2+:1];
         end
     endcase
 
