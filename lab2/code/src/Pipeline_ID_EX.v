@@ -74,9 +74,7 @@ module Pipeline_ID_EX(
             instr_o <= 0;
             RS1addr_o <= 0;
             RS2addr_o <= 0;
-        end
-        else
-        begin
+        end else begin
             RS1data_o <= RS1data_i;
             RS2data_o <= RS2data_i;
             immed_o <= immed_i;
