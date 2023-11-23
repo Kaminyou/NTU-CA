@@ -7,7 +7,7 @@ module CPU
 input clk_i;
 input rst_i;
 
-wire [31:0] IF_PC_o, IF_Adder_o, IF_PC_i, IF_IR;
+wire [31:0] pc, pc_next, IF_PC_i, IF_IR;
 wire NoOp, PCWrite, Stall;
 
 wire [31:0] ID_IR;
@@ -64,7 +64,7 @@ wire [1:0] ForwardA, ForwardB;
 
 
 MUX32 MUX_PC (
-	.src0_i(IF_Adder_o),
+	.src0_i(pc_next),
 	.src1_i(ID_branch_PC),
 	.select_i(ID_to_branch),
 	.res_o(IF_PC_i)
@@ -75,17 +75,17 @@ PC PC (
 	.rst_i(rst_i),
 	.PCWrite_i(PCWrite),
 	.pc_i(IF_PC_i),
-	.pc_o(IF_PC_o)
+	.pc_o(pc)
 );
 
 Adder Add_PC(
-	.src1_i(IF_PC_o),
+	.src1_i(pc),
 	.src2_i(32'd4),
-	.res_o(IF_Adder_o)
+	.res_o(pc_next)
 );
 
 Instruction_Memory Instruction_Memory(
-	.addr_i(IF_PC_o),
+	.addr_i(pc),
 	.instr_o(IF_IR)
 );
 
@@ -94,7 +94,7 @@ Pipe_IF_ID IF_ID(
 	.rst_i(rst_i),
 
 	.IR_i(IF_IR),
-	.PC_i(IF_PC_o),
+	.PC_i(pc),
 
 	.IR_o(ID_IR),
 	.PC_o(ID_PC),
