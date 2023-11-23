@@ -118,9 +118,9 @@ Registers Registers(
 	.RS2data_o(ID_data2)
 );
 
-Imme_Gen Imme_Gen (
-	.IR(ID_IR),
-	.imme(imme_o)
+Imm_Gen Imm_Gen (
+	.instr(ID_IR),
+	.immed(imme_o)
 );
 
 Sign_Extend Sign_Extend(
