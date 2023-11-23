@@ -1,4 +1,4 @@
-module Pipe_ID_EX (
+module Pipeline_ID_EX (
          clk_i,
          rst_i,
 

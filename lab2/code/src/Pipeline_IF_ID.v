@@ -1,4 +1,4 @@
-module Pipe_IF_ID (
+module Pipeline_IF_ID (
          clk_i,
          rst_i,
 

@@ -89,7 +89,7 @@ Instruction_Memory Instruction_Memory(
 	.instr_o(IF_IR)
 );
 
-Pipe_IF_ID IF_ID(
+Pipeline_IF_ID IF_ID(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 
@@ -140,7 +140,7 @@ Control Control(
 	.Branch_o(ID_Branch)
 );
 
-Pipe_ID_EX ID_EX(
+Pipeline_ID_EX ID_EX(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 
@@ -219,7 +219,7 @@ ALU_Control ALU_Control(
 	.ALUCtr_o(ALUctl)
 );
 
-Pipe_EX_MEM EX_MEM (
+Pipeline_EX_MEM EX_MEM (
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 
@@ -254,7 +254,7 @@ Data_Memory Data_Memory(
 	.data_o(MEM_MD)
 );
 
-Pipe_MEM_WB MEM_WB(
+Pipeline_MEM_WB MEM_WB(
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 
