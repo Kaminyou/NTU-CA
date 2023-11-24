@@ -1,32 +1,32 @@
-module Forwarder(EX_Rs1, EX_Rs2, MEM_RegWrite, MEM_Rd, WB_RegWrite, WB_Rd, Forward_A, Forward_B);
+module Forwarder(EX_Rs1_i, EX_Rs2_i, MEM_RegWrite_i, MEM_Rd_i, WB_RegWrite_i, WB_Rd_i, Forward_A_o, Forward_B_o);
 
-    input [4:0] EX_Rs1, EX_Rs2; // target rs
-    input [4:0] MEM_Rd, WB_Rd;
-    input MEM_RegWrite, WB_RegWrite;
+    input [4:0] EX_Rs1_i, EX_Rs2_i; // target rs
+    input [4:0] MEM_Rd_i, WB_Rd_i;
+    input MEM_RegWrite_i, WB_RegWrite_i;
 
-    output reg [1:0] Forward_A, Forward_B;
+    output reg [1:0] Forward_A_o, Forward_B_o;
 
-    always @(EX_Rs1 or EX_Rs2 or MEM_Rd or WB_Rd or MEM_RegWrite or WB_RegWrite)
+    always @(EX_Rs1_i or EX_Rs2_i or MEM_Rd_i or WB_Rd_i or MEM_RegWrite_i or WB_RegWrite_i)
     begin
         // check from MEM to EX
-        if (MEM_RegWrite && MEM_Rd != 0 && MEM_Rd == EX_Rs1)
-            Forward_A <= 2'b10;
+        if (MEM_RegWrite_i && MEM_Rd_i != 0 && MEM_Rd_i == EX_Rs1_i)
+            Forward_A_o <= 2'b10;
         // check from WB to EX
-        else if (WB_RegWrite && WB_Rd != 0 && WB_Rd == EX_Rs1)
-            Forward_A <= 2'b01;
+        else if (WB_RegWrite_i && WB_Rd_i != 0 && WB_Rd_i == EX_Rs1_i)
+            Forward_A_o <= 2'b01;
         // no need
         else
-            Forward_A <= 2'b00;
+            Forward_A_o <= 2'b00;
 
         // check from MEM to EX
-        if (MEM_RegWrite && MEM_Rd != 0 && MEM_Rd == EX_Rs2)
-            Forward_B <= 2'b10;
+        if (MEM_RegWrite_i && MEM_Rd_i != 0 && MEM_Rd_i == EX_Rs2_i)
+            Forward_B_o <= 2'b10;
         // check from WB to EX
-        else if (WB_RegWrite && WB_Rd != 0 && WB_Rd == EX_Rs2)
-            Forward_B <= 2'b01;
+        else if (WB_RegWrite_i && WB_Rd_i != 0 && WB_Rd_i == EX_Rs2_i)
+            Forward_B_o <= 2'b01;
         // no need
         else
-            Forward_B <= 2'b00;
+            Forward_B_o <= 2'b00;
     end
 
 endmodule

@@ -1,4 +1,4 @@
-module Pipeline_IF_ID(clk_i, rst_i, instr_i, pc_i, instr_o, pc_o, Flush_i, Stall_i);
+module Pipeline_IF_ID(clk_i, rst_i, instr_i, pc_i, Flush_i, Stall_i, instr_o, pc_o);
 
     input clk_i, rst_i;
     input [31:0] instr_i, pc_i;

@@ -63,25 +63,25 @@ module CPU
 
 
 	Forwarder Forwarder(
-		.EX_Rs1(EX_Rs1),
-		.EX_Rs2(EX_Rs2),
-		.MEM_RegWrite(MEM_RegWrite),
-		.MEM_Rd(MEM_Rd),
-		.WB_RegWrite(WB_RegWrite),
-		.WB_Rd(WB_Rd),
-		.Forward_A(Forward_A),
-		.Forward_B(Forward_B)
+		.EX_Rs1_i(EX_Rs1),
+		.EX_Rs2_i(EX_Rs2),
+		.MEM_RegWrite_i(MEM_RegWrite),
+		.MEM_Rd_i(MEM_Rd),
+		.WB_RegWrite_i(WB_RegWrite),
+		.WB_Rd_i(WB_Rd),
+		.Forward_A_o(Forward_A),
+		.Forward_B_o(Forward_B)
 	);
 
 	Hazard_Detection Hazard_Detection(
 		.clk_i(clk_i),
 		.rst_i(rst_i),
-		.ID_Rs1(ID_Rs1),
-		.ID_Rs2(ID_Rs2),
-		.EX_MemRead(EX_MemRead),
-		.EX_Rd(EX_Rd),
-		.NoOp(NoOp),
-		.PCWrite(PCWrite),
+		.ID_Rs1_i(ID_Rs1),
+		.ID_Rs2_i(ID_Rs2),
+		.EX_MemRead_i(EX_MemRead),
+		.EX_Rd_i(EX_Rd),
+		.NoOp_o(NoOp),
+		.PCWrite_o(PCWrite),
 		.Stall_o(Stall)
 	);
 
@@ -116,10 +116,10 @@ module CPU
 		.rst_i(rst_i),
 		.instr_i(IF_instr),
 		.pc_i(pc),
-		.instr_o(ID_instr),
-		.pc_o(ID_pc),
 		.Flush_i(ID_FlushIF),
-		.Stall_i(Stall)
+		.Stall_i(Stall),
+		.instr_o(ID_instr),
+		.pc_o(ID_pc)
 	);
 
 	Registers Registers(
@@ -135,8 +135,8 @@ module CPU
 	);
 
 	Imm_Gen Imm_Gen(
-		.instr(ID_instr),
-		.immed(immed)
+		.instr_i(ID_instr),
+		.immed_o(immed)
 	);
 
 	Sign_Extend Sign_Extend(
