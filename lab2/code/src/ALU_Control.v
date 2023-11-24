@@ -21,23 +21,23 @@ module ALU_Control(ALUOp_i, funct7_i, funct3_i, ALUCtr_o);
         2'b10:
             begin
             case (funct3_i)
-                3'b111:
-                ALUCtr_o <= `AND;
-                3'b100:
-                ALUCtr_o <= `XOR;
-                3'b001:
-                ALUCtr_o <= `SLL;
-                3'b000:
-                begin
-                    case (funct7_i)
-                    7'b0000000:
-                        ALUCtr_o <= `ADD;
-                    7'b0100000:
-                        ALUCtr_o <= `SUB;
-                    7'b0000001:
-                        ALUCtr_o <= `MUL;
-                    endcase
-                end
+            3'b111:
+            ALUCtr_o <= `AND;
+            3'b100:
+            ALUCtr_o <= `XOR;
+            3'b001:
+            ALUCtr_o <= `SLL;
+            3'b000:
+            begin
+                case (funct7_i)
+                7'b0000000:
+                    ALUCtr_o <= `ADD;
+                7'b0100000:
+                    ALUCtr_o <= `SUB;
+                7'b0000001:
+                    ALUCtr_o <= `MUL;
+                endcase
+            end
             endcase
             end
         2'b11:
