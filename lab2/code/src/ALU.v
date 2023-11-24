@@ -14,29 +14,26 @@ module ALU(src1_i, src2_i, res_o, ALUCtr_i);
     output reg [31:0] res_o;
     reg [31:0] tmp;
 
-    always @(ALUCtr_i or src1_i or src2_i)
-    begin
-        case (ALUCtr_i)
-        `AND:
-            res_o <= src1_i & src2_i;
-        `XOR:
-            res_o <= src1_i ^ src2_i;
-        `SLL:
-            res_o <= src1_i << src2_i;
-        `ADD:
-            res_o <= src1_i + src2_i;
-        `SUB:
-            res_o <= src1_i - src2_i;
-        `MUL:
-            res_o <= src1_i * src2_i;
-        `ADDI:
-            res_o <= src1_i + src2_i;
-        `SRAI:
-            res_o <= src1_i >>> src2_i[4:0];
-        default:
-            res_o <= 32'b0; // Default case to handle undefined ALUCtr_i values
-        endcase
-
-    end
+    always @*
+    case (ALUCtr_i)
+    `AND:
+        res_o <= src1_i & src2_i;
+    `XOR:
+        res_o <= src1_i ^ src2_i;
+    `SLL:
+        res_o <= src1_i << src2_i;
+    `ADD:
+        res_o <= src1_i + src2_i;
+    `SUB:
+        res_o <= src1_i - src2_i;
+    `MUL:
+        res_o <= src1_i * src2_i;
+    `ADDI:
+        res_o <= src1_i + src2_i;
+    `SRAI:
+        res_o <= src1_i >>> src2_i[4:0];
+    default:
+        res_o <= 32'b0; // Default case to handle undefined ALUCtr_i values
+    endcase
 
 endmodule

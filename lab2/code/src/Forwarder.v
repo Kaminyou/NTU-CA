@@ -12,7 +12,7 @@ module Forwarder(EX_Rs1, EX_Rs2, MEM_RegWrite, MEM_Rd, WB_RegWrite, WB_Rd, Forwa
         if (MEM_RegWrite && MEM_Rd != 0 && MEM_Rd == EX_Rs1)
             Forward_A <= 2'b10;
         // check from WB to EX
-        else if(WB_RegWrite && WB_Rd != 0 && WB_Rd == EX_Rs1)
+        else if (WB_RegWrite && WB_Rd != 0 && WB_Rd == EX_Rs1)
             Forward_A <= 2'b01;
         // no need
         else
@@ -22,7 +22,7 @@ module Forwarder(EX_Rs1, EX_Rs2, MEM_RegWrite, MEM_Rd, WB_RegWrite, WB_Rd, Forwa
         if (MEM_RegWrite && MEM_Rd != 0 && MEM_Rd == EX_Rs2)
             Forward_B <= 2'b10;
         // check from WB to EX
-        else if(WB_RegWrite && WB_Rd != 0 && WB_Rd == EX_Rs2)
+        else if (WB_RegWrite && WB_Rd != 0 && WB_Rd == EX_Rs2)
             Forward_B <= 2'b01;
         // no need
         else

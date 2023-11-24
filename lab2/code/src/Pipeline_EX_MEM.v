@@ -30,25 +30,25 @@ module Pipeline_EX_MEM(
     output reg RegWrite_o, MemtoReg_o, MemRead_o, MemWrite_o;
 
     always@(posedge clk_i or negedge rst_i)
+    if (~rst_i) // init
     begin
-        if (~rst_i) // init
-        begin
-            ALUout_o <= 32'b0;
-            WriteData_o <= 32'b0;
-            Rd_o <= 4'b0;
-            RegWrite_o <= 0;
-            MemtoReg_o <= 0;
-            MemRead_o <= 0;
-            MemWrite_o <= 0;
-        end else begin
-            ALUout_o <= ALUout_i;
-            WriteData_o <= WriteData_i;
-            Rd_o <= Rd_i;
-            RegWrite_o <= RegWrite_i;
-            MemtoReg_o <= MemtoReg_i;
-            MemRead_o <= MemRead_i;
-            MemWrite_o <= MemWrite_i;
-        end
+        ALUout_o <= 32'b0;
+        WriteData_o <= 32'b0;
+        Rd_o <= 4'b0;
+        RegWrite_o <= 0;
+        MemtoReg_o <= 0;
+        MemRead_o <= 0;
+        MemWrite_o <= 0;
+    end
+    else
+    begin
+        ALUout_o <= ALUout_i;
+        WriteData_o <= WriteData_i;
+        Rd_o <= Rd_i;
+        RegWrite_o <= RegWrite_i;
+        MemtoReg_o <= MemtoReg_i;
+        MemRead_o <= MemRead_i;
+        MemWrite_o <= MemWrite_i;
     end
 
 endmodule

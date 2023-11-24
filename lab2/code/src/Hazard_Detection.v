@@ -7,18 +7,19 @@ module Hazard_Detection(clk_i, rst_i, ID_Rs1, ID_Rs2, EX_MemRead, EX_Rd, NoOp, P
     output reg NoOp, PCWrite, Stall_o;
 
     always @*
+    // Hazard detected
+    if (EX_MemRead && (ID_Rs1 == EX_Rd || ID_Rs2 == EX_Rd))
     begin
-        // Hazard detected
-        if (EX_MemRead && (ID_Rs1 == EX_Rd || ID_Rs2 == EX_Rd)) begin
-            NoOp <= 1;
-            PCWrite <= 0;
-            Stall_o <= 1;
-        // nothing
-        end else begin
-            NoOp <= 0;
-            PCWrite <= 1;
-            Stall_o <= 0;
-        end
+        NoOp <= 1;
+        PCWrite <= 0;
+        Stall_o <= 1;
+    // nothing
+    end
+    else
+    begin
+        NoOp <= 0;
+        PCWrite <= 1;
+        Stall_o <= 0;
     end
 
 endmodule
