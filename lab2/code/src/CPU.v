@@ -18,19 +18,10 @@ module CPU
 	wire [31:0] ID_data1, ID_data2, ID_immed;
 	wire [4:0] ID_Rd, ID_Rs1, ID_Rs2;
 	wire [1:0] ID_ALUOp;
-	wire ID_RegWrite, ID_MemtoReg, ID_MemRead, ID_MemWrite, ID_ALUSrc, ID_Branch;
-	wire ID_branch_ctr, ID_FlushIF;
+	wire ID_RegWrite, ID_MemtoReg, ID_MemRead, ID_MemWrite, ID_ALUSrc, ID_Branch, ID_FlushIF;
 
-	// Instruction Decode (ID) Stage Assignments
-	assign ID_Rd = ID_instr[11:7];
-	assign ID_Rs1 = ID_instr[19:15];
-	assign ID_Rs2 = ID_instr[24:20];
-	assign ID_branch_ctr = (ID_data1 == ID_data2) & ID_Branch;
-	assign ID_FlushIF = ID_branch_ctr;
-
-	// Branch Calculation
+	// Branch pc
 	wire [31:0] ID_branch_pc;
-	assign ID_branch_pc = (ID_immed << 1) + ID_pc;
 
 	// Immediate Value Extraction
 	wire [11:0] immed;
@@ -39,8 +30,8 @@ module CPU
 	wire [31:0] EX_data1, EX_data2, EX_immed, EX_pc, EX_instr;
 	wire [4:0] EX_Rd, EX_Rs1, EX_Rs2;
 	wire [1:0] EX_ALUOp;
-	wire EX_RegWrite, EX_MemtoReg, EX_MemRead, EX_MemWrite, EX_ALUSrc;
 	wire signed [31:0] EX_ALUout;
+	wire EX_RegWrite, EX_MemtoReg, EX_MemRead, EX_MemWrite, EX_ALUSrc;
 
 	// ALU Control
 	wire [2:0] ALUctl;
@@ -88,7 +79,7 @@ module CPU
 	MUX32 MUX_PC(
 		.src0_i(pc_next),
 		.src1_i(ID_branch_pc),
-		.select_i(ID_branch_ctr),
+		.select_i(ID_FlushIF),
 		.res_o(IF_pc)
 	);
 
@@ -122,6 +113,10 @@ module CPU
 		.pc_o(ID_pc)
 	);
 
+	assign ID_Rd = ID_instr[11:7];
+	assign ID_Rs1 = ID_instr[19:15];
+	assign ID_Rs2 = ID_instr[24:20];
+
 	Registers Registers(
 		.rst_i(rst_i),
 		.clk_i(clk_i),
@@ -154,6 +149,16 @@ module CPU
 		.MemRead_o(ID_MemRead),
 		.MemWrite_o(ID_MemWrite),
 		.Branch_o(ID_Branch)
+	);
+
+	Branch Branch(
+		.immed_i(ID_immed),
+		.pc_i(ID_pc),
+		.RS1data_i(ID_data1),
+		.RS2data_i(ID_data2),
+		.ID_Branch_i(ID_Branch),
+		.ID_branch_pc_o(ID_branch_pc),
+		.ID_branch_ctr_o(ID_FlushIF)
 	);
 
 	Pipeline_ID_EX Pipeline_ID_EX(
