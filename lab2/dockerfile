@@ -16,4 +16,6 @@ RUN pip install -r requirements.txt
 
 WORKDIR /root/
 
-CMD ["python3", "peco/src/main.py", "-c", "project/judge.yaml"]
+CMD ["/bin/bash"]
+
+# CMD ["python3", "peco/src/main.py", "-c", "project/judge.yaml"]
