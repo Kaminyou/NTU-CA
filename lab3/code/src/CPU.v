@@ -207,11 +207,11 @@ ALU ALU(
 );
 
 ALU_Control ALU_Control(
-              .ALUOp(EX_ALUOp),
-              .funct7(EX_IR[31:25]),
-              .funct3(EX_IR[14:12]),
-              .ALUctl(ALUctl)
-            );
+    .ALUOp_i(EX_ALUOp),
+    .funct7_i(EX_IR[31:25]),
+    .funct3_i(EX_IR[14:12]),
+    .ALUCtr_o(ALUctl)
+);
 
 Pipe_EX_MEM EX_MEM (
               .clk_i(clk_i),

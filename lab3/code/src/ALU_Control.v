@@ -1,54 +1,48 @@
-module ALU_Control(
-         ALUOp,
-         funct7,
-         funct3,
-         ALUctl
-       );
+`define AND  3'b000
+`define XOR  3'b001
+`define SLL  3'b010
+`define ADD  3'b011
+`define SUB  3'b100
+`define MUL  3'b101
+`define ADDI 3'b110
+`define SRAI 3'b111
 
-input [1:0] ALUOp;
-input [6:0] funct7;
-input [2:0] funct3;
+module ALU_Control(ALUOp_i, funct7_i, funct3_i, ALUCtr_o);
 
-output reg [2:0] ALUctl;
+    input [1:0] ALUOp_i;
+    input [6:0] funct7_i;
+    input [2:0] funct3_i;
 
-always @(ALUOp or funct3 or funct7)
-  begin
-    case (ALUOp)
-      2'b10:  // decided by funct
-        begin
-          case (funct3)
-            3'b111:
-              ALUctl <= 0;
-            3'b100:
-              ALUctl <= 1;
-            3'b001:
-              ALUctl <= 2;
-            3'b000:
-              begin
-                case (funct7)
-                  0:
-                    ALUctl <= 3;
-                  32:
-                    ALUctl <= 4;
-                  1:
-                    ALUctl <= 5;
-                endcase
-              end
-          endcase
-        end
-      2'b11:  // decided by funct, with imme
-        case (funct3)
-          0:
-            ALUctl <= 3;
-          3'b101:
-            ALUctl <= 6;
+    output reg [2:0] ALUCtr_o;
+
+    always @*
+    case (ALUOp_i)
+    2'b00:
+        ALUCtr_o <= `SUB;
+    2'b01:
+        ALUCtr_o <= `ADD;
+    2'b10:
+        case ({funct7_i, funct3_i})
+        10'b0000000111:
+            ALUCtr_o <= `AND;
+        10'b0000000100:
+            ALUCtr_o <= `XOR;
+        10'b0000000001:
+            ALUCtr_o <= `SLL;
+        10'b0000000000:
+            ALUCtr_o <= `ADD;
+        10'b0100000000:
+            ALUCtr_o <= `SUB;
+        10'b0000001000:
+            ALUCtr_o <= `MUL;
         endcase
-      2'b01:  // always add
-        ALUctl <= 3;
-      2'b00:  // always sub
-        ALUctl <= 4;
+    2'b11:
+        case (funct3_i)
+        3'b000:
+            ALUCtr_o <= `ADDI;
+        3'b101:
+            ALUCtr_o <= `SRAI;
+        endcase
     endcase
-  end
-
 
 endmodule
