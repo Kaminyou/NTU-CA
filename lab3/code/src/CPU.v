@@ -28,19 +28,16 @@ Instruction_Memory Instruction_Memory(
                      .instr_o(IF_IR)
                    );
 
-Pipe_IF_ID IF_ID(
-             .clk_i(clk_i),
-             .rst_i(rst_i),
-
-             .IR_i(IF_IR),
-             .PC_i(IF_PC_o),
-
-             .IR_o(ID_IR),
-             .PC_o(ID_PC),
-
-             .flush_i(ID_Flush),
-             .Stall_i(Stall)
-           );
+Pipeline_IF_ID IF_ID(
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+    .instr_i(IF_IR),
+    .pc_i(IF_PC_o),
+    .flush_i(ID_Flush),
+    .Stall_i(Stall),
+    .instr_o(ID_IR),
+    .pc_o(ID_PC)
+);
 
 
 // * ID
