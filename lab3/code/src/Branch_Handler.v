@@ -19,7 +19,7 @@ module Branch_Handler (
 
          IF_ID_Flush_o,
          ID_EX_Flush_o,
-         next_pc_o,
+         next_pc_select_o,
        );
 
 
@@ -36,7 +36,7 @@ input EX_Branch_i, EX_Predict_i, EX_Zero_i;
 input [31:0] EX_imme_i, EX_pc_i;
 
 output reg IF_ID_Flush_o, ID_EX_Flush_o;
-output reg [31:0] next_pc_o;
+output reg [1:0] next_pc_select_o;
 
 
 
@@ -51,9 +51,9 @@ always @(*)
         IF_ID_Flush_o <= 1;
         ID_EX_Flush_o <= 1;
         if(EX_Predict_i)
-          next_pc_o <= EX_pc_i + 4;
+          next_pc_select_o <= 2'b10;
         else
-          next_pc_o <= EX_pc_i + (EX_imme_i << 1);
+          next_pc_select_o <= 2'b11;
       end
     else
       begin
@@ -61,9 +61,9 @@ always @(*)
         ID_EX_Flush_o <= 0;
 
         if(Predict_i && ID_Branch_i)
-          next_pc_o <= ID_pc_i + (ID_imme_i << 1);
+          next_pc_select_o <= 2'b01;
         else
-          next_pc_o <= IF_adder_pc_i;
+          next_pc_select_o <= 2'b00;
       end
   end
 

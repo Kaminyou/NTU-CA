@@ -7,8 +7,18 @@ module CPU
     input clk_i;
     input rst_i;
 
-    wire [31:0] IF_PC_o, IF_Adder_o, IF_PC_i, IF_IR;
+    wire [31:0] IF_PC_o, IF_Adder_o, IF_PC_i, IF_IR, ID_pc_default, EX_pc_default;
 
+    wire [1:0] next_pc_select;
+
+    MUX32_Double MUX_PCSrc(
+        .src00_i(IF_Adder_o),
+        .src01_i(ID_pc_branch),
+        .src10_i(EX_pc_default),
+        .src11_i(EX_pc_branch),
+        .select_i(next_pc_select),
+        .res_o(IF_PC_i)
+    );
 
     PC PC(
         .clk_i(clk_i),
@@ -37,7 +47,10 @@ module CPU
         .flush_i(ID_Flush),
         .Stall_i(Stall),
         .instr_o(ID_IR),
-        .pc_o(ID_PC)
+        .pc_o(ID_PC),
+
+        .pc_default_i(IF_Adder_o),
+        .pc_default_o(ID_pc_default)
     );
 
 
@@ -57,16 +70,8 @@ module CPU
     // ! output signals
     wire ID_RegWrite, ID_MemtoReg,
         ID_MemRead, ID_MemWrite,
-        ID_ALUSrc, ID_Branch;
+        ID_ALUSrc, ID_Branch, EX_Branch;
     wire [1:0] ID_ALUOp;
-
-
-    // wire ID_to_branch, ID_Flush;
-    // assign ID_to_branch = (ID_data1 == ID_data2) & ID_Branch;
-    // assign ID_Flush = ID_to_branch;
-
-    // wire [31:0] ID_branch_PC;
-    // assign ID_branch_PC = (ID_imme << 1) + ID_PC;
 
     wire [11:0] imme_o;
 
@@ -82,7 +87,6 @@ module CPU
         .RS2data_o(ID_data2)
     );
 
-
     Imm_Gen Imm_Gen(
         .instr_i(ID_IR),
         .immed_o(imme_o)
@@ -91,6 +95,13 @@ module CPU
     Sign_Extend Sign_Extend(
         .data_i(imme_o),
         .data_o(ID_imme)
+    );
+
+    wire [31:0] ID_pc_branch, EX_pc_branch;
+    Adder Branch_PC_Adder(
+        .src1_i(ID_PC),
+        .src2_i(ID_imme << 1),
+        .res_o(ID_pc_branch)
     );
 
     Control Control(
@@ -140,7 +151,13 @@ module CPU
         .RS2addr_o(EX_Rs2),
 
         .Branch_i(ID_Branch),
-        .Predict_i(Predict)
+        .Predict_i(Predict),
+
+        .pc_branch_i(ID_pc_branch),
+        .pc_branch_o(EX_pc_branch),
+
+        .pc_default_i(ID_pc_default),
+        .pc_default_o(EX_pc_default)
     );
 
 
@@ -189,19 +206,18 @@ module CPU
         .res_o(ALU_B_i)
     );
 
+    ALU_Control ALU_Control(
+        .ALUOp_i(EX_ALUOp),
+        .funct7_i(EX_IR[31:25]),
+        .funct3_i(EX_IR[14:12]),
+        .ALUCtr_o(ALUctl)
+    );
 
     ALU ALU(
         .src1_i(ALU_A_i),
         .src2_i(ALU_B_i),
         .data_o(EX_ALUout),
         .ALUCtr_i(ALUctl)
-    );
-
-    ALU_Control ALU_Control(
-        .ALUOp_i(EX_ALUOp),
-        .funct7_i(EX_IR[31:25]),
-        .funct3_i(EX_IR[14:12]),
-        .ALUCtr_o(ALUctl)
     );
 
     Pipeline_EX_MEM EX_MEM(
@@ -324,7 +340,7 @@ module CPU
 
         .Predict_i(Predict),
 
-        .IF_adder_pc_i(IF_Adder_o),
+        .IF_adder_pc_i(IF_Adder_o), // pc = pc + 4
 
         .ID_Branch_i(ID_Branch),
         .ID_imme_i(ID_imme),
@@ -338,7 +354,8 @@ module CPU
 
         .IF_ID_Flush_o(IF_ID.flush_i),
         .ID_EX_Flush_o(ID_EX.flush_i),
-        .next_pc_o(IF_PC_i)
+        // .next_pc_o(IF_PC_i),
+        .next_pc_select_o(next_pc_select)
     );
 
 

@@ -36,6 +36,12 @@ module Pipeline_ID_EX(
     Predict_i,
     Predict_o,
     Branch_o,
+
+    pc_branch_i,
+    pc_branch_o,
+
+    pc_default_i,
+    pc_default_o,
 );
 
 input clk_i;
@@ -66,6 +72,9 @@ input clk_i;
     input Branch_i, Predict_i;
     output reg Branch_o, Predict_o;
 
+    input [31:0] pc_branch_i, pc_default_i;
+    output reg [31:0] pc_branch_o, pc_default_o;
+
     always@(posedge clk_i or negedge rst_i)
     if (~rst_i || flush_i)
     begin
@@ -85,6 +94,8 @@ input clk_i;
         RS2addr_o <= 0;
         Branch_o <= 0;
         Predict_o <= 0;
+        pc_branch_o <= 32'b0;
+        pc_default_o <= 32'b0;
     end
     else
     begin
@@ -104,6 +115,8 @@ input clk_i;
         RS2addr_o <= RS2addr_i;
         Branch_o <= Branch_i;
         Predict_o <= Predict_i;
+        pc_branch_o <= pc_branch_i;
+        pc_default_o <= pc_default_i;
     end
 
 endmodule

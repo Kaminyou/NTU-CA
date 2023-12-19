@@ -11,6 +11,7 @@ input clk_i, rst_i, update_i, result_i;
 output predict_o;
 
 // TODO
+assign predict_o = ~state[1];
 
 reg [1:0] state;  // 0: strongly taken -> 3: strongly non-taken
 
@@ -43,6 +44,6 @@ always @(posedge clk_i or negedge rst_i)
       endcase
   end
 
-assign predict_o = ~state[1];
+
 
 endmodule
