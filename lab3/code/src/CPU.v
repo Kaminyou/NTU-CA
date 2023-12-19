@@ -328,30 +328,17 @@ module CPU
     Branch_Predictor branch_predictor(
         .clk_i(clk_i),
         .rst_i(rst_i),
-
-        .update_i(ID_EX.Branch_o),
-        .result_i(ALU.Zero_o),
+        .EX_Branch_i(ID_EX.Branch_o),
+        .EX_gtTaken_i(ALU.Zero_o),
         .predict_o(Predict)
     );
 
     Branch_Handler Branch_Handler(
-        .clk_i(clk_i),
-        .rst_i(rst_i),
-
         .Predict_i(Predict),
-
-        .IF_adder_pc_i(IF_Adder_o), // pc = pc + 4
-
         .ID_Branch_i(ID_Branch),
-        .ID_imme_i(ID_imme),
-        .ID_pc_i(ID_PC),
-
         .EX_Branch_i(ID_EX.Branch_o),
         .EX_Predict_i(ID_EX.Predict_o),
         .EX_Zero_i(ALU.Zero_o),
-        .EX_imme_i(EX_imme),
-        .EX_pc_i(EX_PC),
-
         .IF_ID_Flush_o(IF_ID.flush_i),
         .ID_EX_Flush_o(ID_EX.flush_i),
         .next_pc_select_o(next_pc_select)

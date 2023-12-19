@@ -1,49 +1,47 @@
-module Branch_Predictor
-       (
-         clk_i,
-         rst_i,
+`define STRONGLY_NON_TAKEN 2'b00
+`define WEAKLY_NON_TAKEN   2'b01
+`define WEAKLY_TAKEN       2'b10
+`define STRONGLY_TAKEN     2'b11
 
-         update_i,
-         result_i,
-         predict_o
-       );
-input clk_i, rst_i, update_i, result_i;
-output predict_o;
+module Branch_Predictor(
+    clk_i,
+    rst_i,
+    EX_Branch_i, // is now EX stage execute a branch?
+    EX_gtTaken_i, // is now EX stage execute a branch and it should taken (zero=1)
+    predict_o,
+);
+    input clk_i, rst_i;
+    input EX_Branch_i, EX_gtTaken_i;
+    output predict_o;
 
-// TODO
-assign predict_o = ~state[1];
+    reg [1:0] state;
 
-reg [1:0] state;  // 0: strongly taken -> 3: strongly non-taken
+    assign predict_o = state[1];
 
-always @(posedge clk_i or negedge rst_i)
-  begin
-    if (~rst_i)
-      state <= 0;
-    else if (update_i)
-      case (state)
-        0:
-          if(result_i)  // taken
-            ;
-          else          // non-taken
-            state <= 1;
-        1:
-          if(result_i)  // taken
-            state <= 0;
-          else          // non-taken
-            state <= 2;
-        2:
-          if(result_i)  // taken
-            state <= 1;
-          else          // non-taken
-            state <= 3;
-        3:
-          if(result_i)  // taken
-            state <= 2;
-          else          // non-taken
-            ;
-      endcase
-  end
-
-
-
+    always @(posedge clk_i or negedge rst_i)
+    begin
+        if (~rst_i)
+            state <= `STRONGLY_TAKEN;
+        else if (EX_Branch_i)
+        case (state)
+            `STRONGLY_TAKEN:
+                if (EX_gtTaken_i);
+                else
+                    state <= `WEAKLY_TAKEN;
+            `WEAKLY_TAKEN:
+                if (EX_gtTaken_i)
+                    state <= `STRONGLY_TAKEN;
+                else
+                    state <= `WEAKLY_NON_TAKEN;
+            `WEAKLY_NON_TAKEN:
+                if(EX_gtTaken_i)
+                    state <= `WEAKLY_TAKEN;
+                else
+                    state <= `STRONGLY_NON_TAKEN;
+            `STRONGLY_NON_TAKEN:
+                if (EX_gtTaken_i)
+                    state <= `WEAKLY_NON_TAKEN;
+                else;
+        endcase
+    end
 endmodule
