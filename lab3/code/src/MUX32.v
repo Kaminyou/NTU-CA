@@ -1,20 +1,8 @@
-module MUX32(
-         in0,
-         in1,
-         swt,
-         res
-       );
+module MUX32(src0_i, src1_i, select_i, res_o);
+    input [31:0] src0_i, src1_i;
+    input select_i;
+    output [31:0] res_o;
 
-input swt;
-input [31:0] in0, in1;
-output reg [31:0] res;
-
-always @(*)
-  begin
-    if (swt)
-      res <= in1;
-    else
-      res <= in0;
-  end
+    assign res_o = ((select_i == 1'b0) ? src0_i : src1_i);
 
 endmodule

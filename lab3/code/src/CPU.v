@@ -193,11 +193,11 @@ MUX32_2 MUX_B(
         );
 
 MUX32 MUX_ALUSrc(
-        .in0(MUX_B_o),
-        .in1(EX_imme),
-        .swt(EX_ALUSrc),
-        .res(ALU_B_i)
-      );
+    .src0_i(MUX_B_o),
+    .src1_i(EX_imme),
+    .select_i(EX_ALUSrc),
+    .res_o(ALU_B_i)
+);
 
 
 ALU ALU(
