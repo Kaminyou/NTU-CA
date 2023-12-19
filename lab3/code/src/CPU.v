@@ -313,19 +313,15 @@ Forwarding_Unit Forwarding_Unit (
 // ! Signals
 wire NoOp, PCWrite, Stall;
 
-Hazard_Detection_Unit Hazard_Detection_Unit(
-                        .clk_i(clk_i),
-                        .rst_i(rst_i),
-
-                        .ID_Rs1(ID_Rs1),
-                        .ID_Rs2(ID_Rs2),
-                        .EX_Rd(EX_RD),
-                        .EX_MemRead(EX_MemRead),
-
-                        .NoOp(NoOp),
-                        .PCWrite(PCWrite),
-                        .Stall(Stall)
-                      );
+Hazard_Detection Hazard_Detection(
+    .ID_Rs1_i(ID_Rs1),
+    .ID_Rs2_i(ID_Rs2),
+    .EX_MemRead_i(EX_MemRead),
+    .EX_Rd_i(EX_RD),
+    .NoOp_o(NoOp),
+    .PCWrite_o(PCWrite),
+    .Stall_o(Stall)
+);
 
 
 wire Predict;
