@@ -201,12 +201,11 @@ MUX32 MUX_ALUSrc(
 
 
 ALU ALU(
-      .data1_i(ALU_A_i),
-      .data2_i(ALU_B_i),
-      .data_o(EX_ALUout),
-
-      .ALUctl_i(ALUctl)
-    );
+    .src1_i(ALU_A_i),
+    .src2_i(ALU_B_i),
+    .data_o(EX_ALUout),
+    .ALUCtr_i(ALUctl)
+);
 
 ALU_Control ALU_Control(
               .ALUOp(EX_ALUOp),
