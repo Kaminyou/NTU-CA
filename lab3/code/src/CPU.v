@@ -287,11 +287,11 @@ wire WB_MemtoReg, WB_RegWrite;
 wire [31:0] WB_RDdata;
 
 MUX32 WB_MUX(
-        .in0(WB_ALUout),
-        .in1(WB_MD),
-        .swt(WB_MemtoReg),
-        .res(WB_RDdata)
-      );
+    .src0_i(WB_ALUout),
+    .src1_i(WB_MD),
+    .select_i(WB_MemtoReg),
+    .res_o(WB_RDdata)
+);
 
 
 // * Forwarding Unit
