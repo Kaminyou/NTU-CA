@@ -257,23 +257,20 @@ Data_Memory Data_Memory(
               .data_o(MEM_MD)
             );
 
-Pipe_MEM_WB MEM_WB(
-              .clk_i(clk_i),
-              .rst_i(rst_i),
-
-              .MD_i(MEM_MD),
-              .ALUout_i(MEM_ALUout),
-              .RD_i(MEM_RD),
-
-              .MD_o(WB_MD),
-              .ALUout_o(WB_ALUout),
-              .RD_o(WB_RD),
-
-              .RegWrite_i(MEM_RegWrite),
-              .MemtoReg_i(MEM_MemtoReg),
-              .RegWrite_o(WB_RegWrite),
-              .MemtoReg_o(WB_MemtoReg)
-            );
+Pipeline_MEM_WB Pipeline_MEM_WB(
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+    .MemoryData_i(MEM_MD),
+    .ALUout_i(MEM_ALUout),
+    .Rd_i(MEM_RD),
+    .RegWrite_i(MEM_RegWrite),
+    .MemtoReg_i(MEM_MemtoReg),
+    .MemoryData_o(WB_MD),
+    .ALUout_o(WB_ALUout),
+    .Rd_o(WB_RD),
+    .RegWrite_o(WB_RegWrite),
+    .MemtoReg_o(WB_MemtoReg)
+);
 
 // * WB
 
