@@ -12,9 +12,9 @@ module CPU
 
     // Instruction Fetch (IF) Stage Signals
     wire NoOp, PCWrite, Stall;
-    wire [31:0] ID_pc, ID_instr;
 
     // Instruction Decode (ID) Stage Registers and Control Signals
+    wire [31:0] ID_pc, ID_instr;
     wire [31:0] ID_data1, ID_data2, ID_immed;
     wire [4:0] ID_Rd, ID_Rs1, ID_Rs2;
     wire [1:0] ID_ALUOp;
@@ -65,8 +65,6 @@ module CPU
     );
 
     Hazard_Detection Hazard_Detection(
-        .clk_i(clk_i),
-        .rst_i(rst_i),
         .ID_Rs1_i(ID_Rs1),
         .ID_Rs2_i(ID_Rs2),
         .EX_MemRead_i(EX_MemRead),

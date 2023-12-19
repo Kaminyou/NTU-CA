@@ -1,6 +1,5 @@
-module Hazard_Detection(clk_i, rst_i, ID_Rs1_i, ID_Rs2_i, EX_MemRead_i, EX_Rd_i, NoOp_o, PCWrite_o, Stall_o);
+module Hazard_Detection(ID_Rs1_i, ID_Rs2_i, EX_MemRead_i, EX_Rd_i, NoOp_o, PCWrite_o, Stall_o);
 
-    input rst_i, clk_i;
     input [4:0] ID_Rs1_i, ID_Rs2_i, EX_Rd_i;
     input EX_MemRead_i;
 
