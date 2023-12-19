@@ -94,9 +94,9 @@ Imme_Gen Imme_Gen (
          );
 
 Sign_Extend Sign_Extend(
-              .in(imme_o),
-              .out(ID_imme)
-            );
+    .data_i(imme_o),
+    .data_o(ID_imme)
+);
 
 Control Control(
           .opcode(ID_IR[6:0]),
