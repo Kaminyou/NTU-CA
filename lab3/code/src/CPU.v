@@ -354,7 +354,6 @@ module CPU
 
         .IF_ID_Flush_o(IF_ID.flush_i),
         .ID_EX_Flush_o(ID_EX.flush_i),
-        // .next_pc_o(IF_PC_i),
         .next_pc_select_o(next_pc_select)
     );
 
