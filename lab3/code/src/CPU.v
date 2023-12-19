@@ -296,17 +296,16 @@ MUX32 WB_MUX(
 // * Forwarding Unit
 
 wire [1:0] ForwardA, ForwardB;
-Forwarding_Unit Forwarding_Unit (
-                  .EX_Rs1(EX_Rs1),
-                  .EX_Rs2(EX_Rs2),
-                  .MEM_RegWrite(MEM_RegWrite),
-                  .MEM_Rd(MEM_RD),
-                  .WB_RegWrite(WB_RegWrite),
-                  .WB_RD(WB_RD),
-
-                  .ForwardA(ForwardA),
-                  .ForwardB(ForwardB)
-                );
+Forwarder Forwarder(
+    .EX_Rs1_i(EX_Rs1),
+    .EX_Rs2_i(EX_Rs2),
+    .MEM_RegWrite_i(MEM_RegWrite),
+    .MEM_Rd_i(MEM_RD),
+    .WB_RegWrite_i(WB_RegWrite),
+    .WB_Rd_i(WB_RD),
+    .Forward_A_o(ForwardA),
+    .Forward_B_o(ForwardB)
+);
 
 // * Hazard Detection
 
