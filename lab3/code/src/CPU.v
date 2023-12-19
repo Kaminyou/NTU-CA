@@ -99,17 +99,16 @@ Sign_Extend Sign_Extend(
 );
 
 Control Control(
-          .opcode(ID_IR[6:0]),
-
-          .RegWrite(ID_RegWrite),
-          .MemtoReg(ID_MemtoReg),
-          .MemRead(ID_MemRead),
-          .MemWrite(ID_MemWrite),
-          .ALUOp(ID_ALUOp),
-          .ALUSrc(ID_ALUSrc),
-          .Branch(ID_Branch),
-          .NoOp(NoOp)
-        );
+    .Op_i(ID_IR[6:0]),
+    .NoOp_i(NoOp),
+    .ALUOp_o(ID_ALUOp),
+    .ALUSrc_o(ID_ALUSrc),
+    .RegWrite_o(ID_RegWrite),
+    .MemtoReg_o(ID_MemtoReg),
+    .MemRead_o(ID_MemRead),
+    .MemWrite_o(ID_MemWrite),
+    .Branch_o(ID_Branch)
+);
 
 Pipe_ID_EX ID_EX(
              .clk_i(clk_i),

@@ -14,7 +14,7 @@ output reg [2:0] ALUctl;
 always @(ALUOp or funct3 or funct7)
   begin
     case (ALUOp)
-      2'b11:  // decided by funct
+      2'b10:  // decided by funct
         begin
           case (funct3)
             3'b111:
@@ -36,7 +36,7 @@ always @(ALUOp or funct3 or funct7)
               end
           endcase
         end
-      2'b10:  // decided by funct, with imme
+      2'b11:  // decided by funct, with imme
         case (funct3)
           0:
             ALUctl <= 3;
