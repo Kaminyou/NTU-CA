@@ -88,10 +88,10 @@ Registers Registers(
           );
 
 
-Imme_Gen Imme_Gen (
-           .IR(ID_IR),
-           .imme(imme_o)
-         );
+Imm_Gen Imm_Gen (
+    .instr_i(ID_IR),
+    .immed_o(imme_o)
+);
 
 Sign_Extend Sign_Extend(
     .data_i(imme_o),
