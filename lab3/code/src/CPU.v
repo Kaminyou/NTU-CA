@@ -1,68 +1,13 @@
-
-// `include "./PC.v"
-// `include "./Instruction_Memory.v"
-// `include "./Registers.v"
-// `include "./Control.v"
-// `include "./Adder.v"
-// `include "./Sign_Extend.v"
-// `include "./ALU.v"
-// `include "./ALU_Control.v"
-// `include "./MUX32.v"
-// `include "./MUX32_2.v"
-
-// `include "./Imme_Gen.v"
-
-// `include "./Pipe_IF_ID.v"
-// `include "./Pipe_ID_EX.v"
-// `include "./Pipe_EX_MEM.v"
-// `include "./Pipe_MEM_WB.v"
-// `include "./Forwarding_Unit.v"
-// `include "./Data_Memory.v"
-// `include "./Hazard_Detection_Unit.v"
-
-// `include "./Branch_Predictor.v"
-// `include "./Branch_Handler.v"
-
 module CPU
-       (
-         clk_i,
-         rst_i,
-       );
-
-// * Ports
+(
+    clk_i,
+    rst_i,
+);
 input               clk_i;
 input               rst_i;
 
-// * Wires
-// wire [31:0] pc;
-// wire [31:0] pc_o, instr_out;
-// wire [1:0] ALUOp;
-// wire ALUSrc, RegWrite;
-// wire [2:0] ALUctl;
-
-// reg [31:0] instr_addr;  // ? delay
-// wire [31:0] instr;
-
-// wire [31:0] data1, data2, imme, MUXres, ALUres;
-
-// always @(posedge clk_i or negedge rst_i)
-//   begin
-//     #2
-//      instr_addr = pc_o;
-//   end
-
-
-// * IF
-
 wire [31:0] IF_PC_o, IF_Adder_o, IF_PC_i, IF_IR;
 
-
-// MUX32 MUX_PC (
-//         .in0(IF_Adder_o),
-//         .in1(ID_branch_PC),
-//         .swt(ID_to_branch),
-//         .res(IF_PC_i)
-//       );
 
 PC PC (
      .clk_i(clk_i),
@@ -72,11 +17,11 @@ PC PC (
      .pc_o(IF_PC_o)
    );
 
-Adder_32 Add_PC(
-           .data1_i(IF_PC_o),
-           .data2_i(32'd4),
-           .data_o(IF_Adder_o)
-         );
+Adder Add_PC(
+    .src1_i(IF_PC_o),
+    .src2_i(32'd4),
+    .res_o(IF_Adder_o)
+);
 
 Instruction_Memory Instruction_Memory(
                      .addr_i(IF_PC_o),
