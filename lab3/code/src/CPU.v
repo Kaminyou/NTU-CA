@@ -210,7 +210,7 @@ ALU_Control ALU_Control(
     .ALUCtr_o(ALUctl)
 );
 
-Pipeline_EX_MEM Pipeline_EX_MEM(
+Pipeline_EX_MEM EX_MEM(
     .clk_i(clk_i),
     .rst_i(rst_i),
     .ALUout_i(EX_ALUout),
@@ -250,7 +250,7 @@ Data_Memory Data_Memory(
               .data_o(MEM_MD)
             );
 
-Pipeline_MEM_WB Pipeline_MEM_WB(
+Pipeline_MEM_WB MEM_WB(
     .clk_i(clk_i),
     .rst_i(rst_i),
     .MemoryData_i(MEM_MD),
