@@ -174,23 +174,23 @@ wire [2:0] ALUctl;
 
 assign ALU_A_i = MUX_A_o;
 
-MUX32_2 MUX_A(
-          .in00(EX_A),
-          .in01(WB_RDdata),
-          .in10(MEM_ALUout),
-          .in11(0),
-          .swt(ForwardA),
-          .res(MUX_A_o)
-        );
+MUX32_Double MUX_A(
+    .src00_i(EX_A),
+    .src01_i(WB_RDdata),
+    .src10_i(MEM_ALUout),
+    .src11_i(0),
+    .select_i(ForwardA),
+    .res_o(MUX_A_o)
+);
 
-MUX32_2 MUX_B(
-          .in00(EX_B),
-          .in01(WB_RDdata),
-          .in10(MEM_ALUout),
-          .in11(0),
-          .swt(ForwardB),
-          .res(MUX_B_o)
-        );
+MUX32_Double MUX_B(
+    .src00_i(EX_B),
+    .src01_i(WB_RDdata),
+    .src10_i(MEM_ALUout),
+    .src11_i(0),
+    .select_i(ForwardB),
+    .res_o(MUX_B_o)
+);
 
 MUX32 MUX_ALUSrc(
     .src0_i(MUX_B_o),
