@@ -13,9 +13,8 @@ module CPU
 
     // ID
     wire ID_Predict;
-    wire [31:0] ID_pc_branch, EX_pc_branch;
     wire [31:0] ID_instr;
-    wire [31:0] ID_pc, ID_pc_default;
+    wire [31:0] ID_pc, ID_pc_branch, ID_pc_default;
     wire [31:0] ID_data1, ID_data2, ID_immed;
     wire [4:0] ID_Rd, ID_Rs1, ID_Rs2;
     assign ID_Rd = ID_instr[11:7];
@@ -28,7 +27,7 @@ module CPU
 
     // EX
     wire [31:0] EX_data1, EX_data2, EX_immed, EX_pc, EX_instr;
-    wire [31:0] EX_pc_default;
+    wire [31:0] EX_pc_default, EX_pc_branch;
     wire [4:0] EX_Rd, EX_Rs1, EX_Rs2;
     wire [1:0] EX_ALUOp;
     wire signed [31:0] EX_ALUout;
