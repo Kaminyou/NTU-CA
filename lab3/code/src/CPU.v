@@ -333,14 +333,14 @@ module CPU
         .predict_o(Predict)
     );
 
-    Branch_Handler Branch_Handler(
-        .Predict_i(Predict),
+    Branch_Flusher Branch_Flusher(
+        .ID_predict_i(Predict),
         .ID_Branch_i(ID_Branch),
         .EX_Branch_i(ID_EX.Branch_o),
-        .EX_Predict_i(ID_EX.Predict_o),
-        .EX_Zero_i(ALU.Zero_o),
-        .IF_ID_Flush_o(IF_ID.flush_i),
-        .ID_EX_Flush_o(ID_EX.flush_i),
+        .EX_predict_i(ID_EX.Predict_o),
+        .EX_zero_i(ALU.Zero_o),
+        .IF_ID_flush_o(IF_ID.flush_i),
+        .ID_EX_flush_o(ID_EX.flush_i),
         .next_pc_select_o(next_pc_select)
     );
 
