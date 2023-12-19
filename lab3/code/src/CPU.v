@@ -107,47 +107,43 @@ Control Control(
     .Branch_o(ID_Branch)
 );
 
-Pipe_ID_EX ID_EX(
-             .clk_i(clk_i),
-             .rst_i(rst_i),
+Pipeline_ID_EX ID_EX(
+    .clk_i(clk_i),
+    .rst_i(rst_i),
 
-             .A_i(ID_data1),
-             .B_i(ID_data2),
-             .imme_i(ID_imme),
-             .PC_i(ID_PC),
-             .RD_i(ID_RD),
+    .RS1data_i(ID_data1),
+    .RS2data_i(ID_data2),
+    .immed_i(ID_imme),
+    .pc_i(ID_PC),
+    .Rd_i(ID_RD),
+    .RegWrite_i(ID_RegWrite),
+    .MemtoReg_i(ID_MemtoReg),
+    .MemRead_i(ID_MemRead),
+    .MemWrite_i(ID_MemWrite),
+    .ALUOp_i(ID_ALUOp),
+    .ALUSrc_i(ID_ALUSrc),
+    .instr_i(ID_IR),
+    .RS1addr_i(ID_Rs1),
+    .RS2addr_i(ID_Rs2),
 
-             .A_o(EX_A),
-             .B_o(EX_B),
-             .imme_o(EX_imme),
-             .PC_o(EX_PC),
-             .RD_o(EX_RD),
+    .RS1data_o(EX_A),
+    .RS2data_o(EX_B),
+    .immed_o(EX_imme),
+    .pc_o(EX_PC),
+    .Rd_o(EX_RD),
+    .RegWrite_o(EX_RegWrite),
+    .MemtoReg_o(EX_MemtoReg),
+    .MemRead_o(EX_MemRead),
+    .MemWrite_o(EX_MemWrite),
+    .ALUOp_o(EX_ALUOp),
+    .ALUSrc_o(EX_ALUSrc),
+    .instr_o(EX_IR),
+    .RS1addr_o(EX_Rs1),
+    .RS2addr_o(EX_Rs2),
 
-             .RegWrite_i(ID_RegWrite),
-             .MemtoReg_i(ID_MemtoReg),
-             .MemRead_i(ID_MemRead),
-             .MemWrite_i(ID_MemWrite),
-             .ALUOp_i(ID_ALUOp),
-             .ALUSrc_i(ID_ALUSrc),
-
-             .RegWrite_o(EX_RegWrite),
-             .MemtoReg_o(EX_MemtoReg),
-             .MemRead_o(EX_MemRead),
-             .MemWrite_o(EX_MemWrite),
-             .ALUOp_o(EX_ALUOp),
-             .ALUSrc_o(EX_ALUSrc),
-
-             .Rs1_i(ID_Rs1),
-             .Rs2_i(ID_Rs2),
-             .Rs1_o(EX_Rs1),
-             .Rs2_o(EX_Rs2),
-
-             .IR_i(ID_IR),
-             .IR_o(EX_IR),
-
-             .Branch_i(ID_Branch),
-             .Predict_i(Predict)
-           );
+    .Branch_i(ID_Branch),
+    .Predict_i(Predict)
+);
 
 
 // * EX

@@ -7,17 +7,12 @@ module Pipeline_IF_ID(clk_i, rst_i, instr_i, pc_i, flush_i, Stall_i, instr_o, pc
     output reg [31:0] instr_o, pc_o;
 
     always@(posedge clk_i or negedge rst_i)
-    if (~rst_i)
+    if (~rst_i || flush_i)
     begin
         pc_o <= 32'b0;
         instr_o <= 32'b0;
     end
     else if (Stall_i);  // nothing
-    else if (flush_i)
-    begin
-        pc_o <= 32'b0;
-        instr_o <= 32'b0;
-    end
     else
     begin // general case
         pc_o <= pc_i;
