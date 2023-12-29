@@ -1,1 +1,1 @@
-# NTU-Computer-Architecture-2023-Fall-
+# NTU-Computer-Architecture
